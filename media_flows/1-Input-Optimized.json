@@ -1,0 +1,447 @@
+{
+    "_id": "media_std_input_optimized",
+    "name": "1 - Media Standardization - Input (Optimized)",
+    "description": "Initial file analysis and tagging for media standardization (Optimized version)",
+    "tags": "media,standardization,input,optimized",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Input (Optimized)",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "input_start_comment",
+            "position": {
+                "x": 400,
+                "y": -500
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Input File - Start 📁",
+            "sourceRepo": "Community",
+            "pluginName": "inputFile",
+            "version": "1.0.0",
+            "id": "input_file",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "fileAccessChecks": "true"
+            }
+        },
+        {
+            "name": "Input File - Fail Permissions or File Error 🚨",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "input_file_error",
+            "position": {
+                "x": 600,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check HDR Type 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkHDRType",
+            "version": "1.0.0",
+            "id": "check_hdr_type",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Flow Variable is_dovi 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_dovi",
+            "position": {
+                "x": 200,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_dovi",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_hdr10plus 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_hdr10plus",
+            "position": {
+                "x": 400,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_hdr10plus",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_hdr10 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_hdr10",
+            "position": {
+                "x": 600,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_hdr10",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_sdr 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_sdr",
+            "position": {
+                "x": 800,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_sdr",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Video Codec 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkVideoCodec",
+            "version": "1.0.0",
+            "id": "check_video_codec",
+            "position": {
+                "x": 400,
+                "y": -100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Flow Variable is_h265 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_h265",
+            "position": {
+                "x": 200,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_h265",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_h264 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_h264",
+            "position": {
+                "x": 400,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_h264",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_other_codec 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_other_codec",
+            "position": {
+                "x": 600,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_other_codec",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check File Extension 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFileExtension",
+            "version": "1.0.0",
+            "id": "check_extension",
+            "position": {
+                "x": 400,
+                "y": 100
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "extensions": "mp4"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_mp4 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_mp4",
+            "position": {
+                "x": 300,
+                "y": 200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_mp4",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_mkv 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_mkv",
+            "position": {
+                "x": 500,
+                "y": 200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_mkv",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check if MKV 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFileExtension",
+            "version": "1.0.0",
+            "id": "check_mkv",
+            "position": {
+                "x": 500,
+                "y": 150
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "extensions": "mkv"
+            }
+        },
+        {
+            "name": "Set Flow Variable is_not_mp4 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_not_mp4",
+            "position": {
+                "x": 400,
+                "y": 250
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_not_mp4",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Go To Flow 2 - Prep ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_prep_flow",
+            "position": {
+                "x": 400,
+                "y": 300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_prep_optimized",
+                "pluginId": "prep_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "input_start_comment",
+            "sourceHandle": "1",
+            "target": "input_file",
+            "targetHandle": null,
+            "id": "edge_start_to_input"
+        },
+        {
+            "source": "input_file",
+            "sourceHandle": "err1",
+            "target": "input_file_error",
+            "targetHandle": null,
+            "id": "edge_input_to_error"
+        },
+        {
+            "source": "input_file",
+            "sourceHandle": "1",
+            "target": "check_hdr_type",
+            "targetHandle": null,
+            "id": "edge_input_to_hdr"
+        },
+        {
+            "source": "check_hdr_type",
+            "sourceHandle": "1",
+            "target": "set_is_dovi",
+            "targetHandle": null,
+            "id": "edge_hdr_to_dovi"
+        },
+        {
+            "source": "check_hdr_type",
+            "sourceHandle": "2",
+            "target": "set_is_hdr10plus",
+            "targetHandle": null,
+            "id": "edge_hdr_to_hdr10plus"
+        },
+        {
+            "source": "check_hdr_type",
+            "sourceHandle": "3",
+            "target": "set_is_hdr10",
+            "targetHandle": null,
+            "id": "edge_hdr_to_hdr10"
+        },
+        {
+            "source": "check_hdr_type",
+            "sourceHandle": "4",
+            "target": "set_is_sdr",
+            "targetHandle": null,
+            "id": "edge_hdr_to_sdr"
+        },
+        {
+            "source": "set_is_dovi",
+            "sourceHandle": "1",
+            "target": "check_video_codec",
+            "targetHandle": null,
+            "id": "edge_dovi_to_codec"
+        },
+        {
+            "source": "set_is_hdr10plus",
+            "sourceHandle": "1",
+            "target": "check_video_codec",
+            "targetHandle": null,
+            "id": "edge_hdr10plus_to_codec"
+        },
+        {
+            "source": "set_is_hdr10",
+            "sourceHandle": "1",
+            "target": "check_video_codec",
+            "targetHandle": null,
+            "id": "edge_hdr10_to_codec"
+        },
+        {
+            "source": "set_is_sdr",
+            "sourceHandle": "1",
+            "target": "check_video_codec",
+            "targetHandle": null,
+            "id": "edge_sdr_to_codec"
+        },
+        {
+            "source": "check_video_codec",
+            "sourceHandle": "1",
+            "target": "set_is_h265",
+            "targetHandle": null,
+            "id": "edge_codec_to_h265"
+        },
+        {
+            "source": "check_video_codec",
+            "sourceHandle": "2",
+            "target": "set_is_h264",
+            "targetHandle": null,
+            "id": "edge_codec_to_h264"
+        },
+        {
+            "source": "check_video_codec",
+            "sourceHandle": "3",
+            "target": "set_is_other_codec",
+            "targetHandle": null,
+            "id": "edge_codec_to_other"
+        },
+        {
+            "source": "set_is_h265",
+            "sourceHandle": "1",
+            "target": "check_extension",
+            "targetHandle": null,
+            "id": "edge_h265_to_extension"
+        },
+        {
+            "source": "set_is_h264",
+            "sourceHandle": "1",
+            "target": "check_extension",
+            "targetHandle": null,
+            "id": "edge_h264_to_extension"
+        },
+        {
+            "source": "set_is_other_codec",
+            "sourceHandle": "1",
+            "target": "check_extension",
+            "targetHandle": null,
+            "id": "edge_other_to_extension"
+        },
+        {
+            "source": "check_extension",
+            "sourceHandle": "1",
+            "target": "set_is_mp4",
+            "targetHandle": null,
+            "id": "edge_extension_to_mp4"
+        },
+        {
+            "source": "check_extension",
+            "sourceHandle": "2",
+            "target": "check_mkv",
+            "targetHandle": null,
+            "id": "edge_not_mp4_to_mkv"
+        },
+        {
+            "source": "check_mkv",
+            "sourceHandle": "1",
+            "target": "set_is_mkv",
+            "targetHandle": null,
+            "id": "edge_mkv_to_is_mkv"
+        },
+        {
+            "source": "check_mkv",
+            "sourceHandle": "2",
+            "target": "set_is_not_mp4",
+            "targetHandle": null,
+            "id": "edge_not_mkv_to_not_mp4"
+        },
+        {
+            "source": "set_is_mp4",
+            "sourceHandle": "1",
+            "target": "goto_prep_flow",
+            "targetHandle": null,
+            "id": "edge_is_mp4_to_prep"
+        },
+        {
+            "source": "set_is_mkv",
+            "sourceHandle": "1",
+            "target": "goto_prep_flow",
+            "targetHandle": null,
+            "id": "edge_is_mkv_to_prep"
+        },
+        {
+            "source": "set_is_not_mp4",
+            "sourceHandle": "1",
+            "target": "goto_prep_flow",
+            "targetHandle": null,
+            "id": "edge_is_not_mp4_to_prep"
+        }
+    ]
+}

@@ -1,0 +1,347 @@
+{
+    "_id": "media_std_audio",
+    "name": "3 - Media Standardization - Audio",
+    "description": "Audio stream standardization using AC3 Audio Stream Handler",
+    "tags": "media,standardization,audio",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Audio",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "audio_start",
+            "position": {
+                "x": 400,
+                "y": -800
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ This flow standardizes audio streams to a single English AC3 stream",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "audio_description",
+            "position": {
+                "x": 400,
+                "y": -750
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "AC3 Audio Stream Handler",
+            "sourceRepo": "Community",
+            "pluginName": "ac3AudioStreamHandler",
+            "version": "1.0.0",
+            "id": "ac3_handler",
+            "position": {
+                "x": 400,
+                "y": -650
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "keepOnlyEnglishAC3": "true",
+                "removeNonEnglishSubs": "false",
+                "convertToMkv": "false"
+            }
+        },
+        {
+            "name": "AC3 Handler Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "ac3_handler_error",
+            "position": {
+                "x": 600,
+                "y": -650
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file",
+            "position": {
+                "x": 400,
+                "y": -550
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check for Retry Variables 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "retry_check_comment",
+            "position": {
+                "x": 400,
+                "y": -450
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable retry2 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_retry2",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.retry2}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Variable retry2 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_retry2",
+            "position": {
+                "x": 600,
+                "y": -550
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "retry2",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Go back to beginning of flow ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_input_flow",
+            "position": {
+                "x": 600,
+                "y": -450
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_input",
+                "pluginId": "input_start_comment"
+            }
+        },
+        {
+            "name": "ℹ️ Try to extract subtitles",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "extract_subs_comment",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Try to Extract Subs to SRT",
+            "sourceRepo": "Community",
+            "pluginName": "runClassicTranscodePlugin",
+            "version": "2.0.0",
+            "id": "extract_subs",
+            "position": {
+                "x": 400,
+                "y": -250
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "pluginSourceId": "Community:Tdarr_Plugin_rr01_drpeppershaker_extract_subs_to_SRT",
+                "remove_subs": "no"
+            }
+        },
+        {
+            "name": "Extract Subs Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "extract_subs_error",
+            "position": {
+                "x": 600,
+                "y": -250
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Move Extracted Subs",
+            "sourceRepo": "Community",
+            "pluginName": "copyMoveFolderContent",
+            "version": "1.0.0",
+            "id": "move_subs",
+            "position": {
+                "x": 400,
+                "y": -150
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "sourceDirectory": "workingDirectory",
+                "copyOrMove": "move",
+                "outputDirectory": "{{{args.userVariables.library.output_dir_done}}}",
+                "fileExtensions": "srt,ass,sub,idx"
+            }
+        },
+        {
+            "name": "Move Subs Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "move_subs_error",
+            "position": {
+                "x": 600,
+                "y": -150
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Go To Flow 4 - Video ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_video_flow",
+            "position": {
+                "x": 400,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_video",
+                "pluginId": "video_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "audio_start",
+            "sourceHandle": "1",
+            "target": "audio_description",
+            "targetHandle": null,
+            "id": "edge_start_to_description"
+        },
+        {
+            "source": "audio_description",
+            "sourceHandle": "1",
+            "target": "ac3_handler",
+            "targetHandle": null,
+            "id": "edge_description_to_handler"
+        },
+        {
+            "source": "ac3_handler",
+            "sourceHandle": "err1",
+            "target": "ac3_handler_error",
+            "targetHandle": null,
+            "id": "edge_handler_to_error"
+        },
+        {
+            "source": "ac3_handler",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_handler_to_original"
+        },
+        {
+            "source": "set_original_file",
+            "sourceHandle": "1",
+            "target": "retry_check_comment",
+            "targetHandle": null,
+            "id": "edge_original_to_retry"
+        },
+        {
+            "source": "retry_check_comment",
+            "sourceHandle": "1",
+            "target": "check_retry2",
+            "targetHandle": null,
+            "id": "edge_retry_comment_to_check"
+        },
+        {
+            "source": "check_retry2",
+            "sourceHandle": "1",
+            "target": "extract_subs_comment",
+            "targetHandle": null,
+            "id": "edge_retry2_to_extract"
+        },
+        {
+            "source": "check_retry2",
+            "sourceHandle": "2",
+            "target": "extract_subs_comment",
+            "targetHandle": null,
+            "id": "edge_no_retry2_to_extract"
+        },
+        {
+            "source": "ac3_handler_error",
+            "sourceHandle": "1",
+            "target": "set_retry2",
+            "targetHandle": null,
+            "id": "edge_error_to_retry2"
+        },
+        {
+            "source": "set_retry2",
+            "sourceHandle": "1",
+            "target": "goto_input_flow",
+            "targetHandle": null,
+            "id": "edge_retry2_to_input"
+        },
+        {
+            "source": "extract_subs_comment",
+            "sourceHandle": "1",
+            "target": "extract_subs",
+            "targetHandle": null,
+            "id": "edge_extract_comment_to_extract"
+        },
+        {
+            "source": "extract_subs",
+            "sourceHandle": "err1",
+            "target": "extract_subs_error",
+            "targetHandle": null,
+            "id": "edge_extract_to_error"
+        },
+        {
+            "source": "extract_subs",
+            "sourceHandle": "1",
+            "target": "move_subs",
+            "targetHandle": null,
+            "id": "edge_extract_to_move"
+        },
+        {
+            "source": "extract_subs",
+            "sourceHandle": "2",
+            "target": "goto_video_flow",
+            "targetHandle": null,
+            "id": "edge_extract_nothing_to_video"
+        },
+        {
+            "source": "extract_subs_error",
+            "sourceHandle": "1",
+            "target": "goto_video_flow",
+            "targetHandle": null,
+            "id": "edge_extract_error_to_video"
+        },
+        {
+            "source": "move_subs",
+            "sourceHandle": "err1",
+            "target": "move_subs_error",
+            "targetHandle": null,
+            "id": "edge_move_to_error"
+        },
+        {
+            "source": "move_subs",
+            "sourceHandle": "1",
+            "target": "goto_video_flow",
+            "targetHandle": null,
+            "id": "edge_move_to_video"
+        },
+        {
+            "source": "move_subs_error",
+            "sourceHandle": "1",
+            "target": "goto_video_flow",
+            "targetHandle": null,
+            "id": "edge_move_error_to_video"
+        }
+    ]
+}

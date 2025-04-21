@@ -1,0 +1,92 @@
+{
+    "_id": "media_std_save_optimized",
+    "name": "5 - Media Standardization - Save (Optimized)",
+    "description": "Final processing and output (Optimized version)",
+    "tags": "media,standardization,save,optimized",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Save (Optimized)",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "save_start",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Move to Output Directory",
+            "sourceRepo": "Community",
+            "pluginName": "moveToBlackhole",
+            "version": "1.0.0",
+            "id": "move_to_output",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "outputDirectory": "{{{args.userVariables.library.output_dir_done}}}",
+                "allFiles": "true",
+                "fileExtensions": "mp4,mkv,srt,ass,sub,idx",
+                "includeWorkingDirectory": "true"
+            }
+        },
+        {
+            "name": "Move Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "move_error",
+            "position": {
+                "x": 600,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Processing Complete ✅",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "processing_complete",
+            "position": {
+                "x": 400,
+                "y": -200
+            },
+            "fpEnabled": true
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "save_start",
+            "sourceHandle": "1",
+            "target": "move_to_output",
+            "targetHandle": null,
+            "id": "edge_start_to_move"
+        },
+        {
+            "source": "move_to_output",
+            "sourceHandle": "err1",
+            "target": "move_error",
+            "targetHandle": null,
+            "id": "edge_move_to_error"
+        },
+        {
+            "source": "move_to_output",
+            "sourceHandle": "1",
+            "target": "processing_complete",
+            "targetHandle": null,
+            "id": "edge_move_to_complete"
+        },
+        {
+            "source": "move_error",
+            "sourceHandle": "1",
+            "target": "processing_complete",
+            "targetHandle": null,
+            "id": "edge_error_to_complete"
+        }
+    ]
+}

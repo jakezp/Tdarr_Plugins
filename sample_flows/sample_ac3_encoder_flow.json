@@ -1,0 +1,63 @@
+{
+  "_id": "GwYoxTSoM",
+  "name": "Test flow",
+  "description": "Test flow",
+  "tags": "",
+  "flowPlugins": [
+    {
+      "name": "Input File",
+      "sourceRepo": "Community",
+      "pluginName": "inputFile",
+      "version": "1.0.0",
+      "id": "I5_sjCpp_",
+      "position": {
+        "x": 756.1131893434844,
+        "y": 106.11792798982549
+      },
+      "fpEnabled": true,
+      "inputsDB": {
+        "fileAccessChecks": "true"
+      }
+    },
+    {
+      "name": "AC3 Audio Stream Handler",
+      "sourceRepo": "Community",
+      "pluginName": "ac3AudioStreamHandler",
+      "version": "1.0.0",
+      "id": "l08Z2V-Uy",
+      "position": {
+        "x": 838.2147518434844,
+        "y": 196.6179279898255
+      },
+      "fpEnabled": true
+    },
+    {
+      "name": "Replace Original File",
+      "sourceRepo": "Community",
+      "pluginName": "replaceOriginalFile",
+      "version": "1.0.0",
+      "id": "VARTLdSrv",
+      "position": {
+        "x": 858.2147518434844,
+        "y": 305.6179279898255
+      },
+      "fpEnabled": true
+    }
+  ],
+  "flowEdges": [
+    {
+      "source": "I5_sjCpp_",
+      "sourceHandle": "1",
+      "target": "l08Z2V-Uy",
+      "targetHandle": null,
+      "id": "r3fTVye85"
+    },
+    {
+      "source": "l08Z2V-Uy",
+      "sourceHandle": "1",
+      "target": "VARTLdSrv",
+      "targetHandle": null,
+      "id": "AarNwrqy0"
+    }
+  ]
+}

@@ -1,0 +1,628 @@
+{
+    "_id": "media_std_video",
+    "name": "4 - Media Standardization - Video",
+    "description": "Video processing based on codec and HDR type",
+    "tags": "media,standardization,video",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Video",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "video_start",
+            "position": {
+                "x": 400,
+                "y": -800
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable is_dovi 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_dovi",
+            "position": {
+                "x": 400,
+                "y": -700
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_dovi}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_hdr10plus 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_hdr10plus",
+            "position": {
+                "x": 600,
+                "y": -700
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_hdr10plus}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_hdr10 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_hdr10",
+            "position": {
+                "x": 800,
+                "y": -700
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_hdr10}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "ℹ️ Dolby Vision Processing",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "dovi_processing_comment",
+            "position": {
+                "x": 200,
+                "y": -600
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ HDR10/HDR10+ Processing",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "hdr_processing_comment",
+            "position": {
+                "x": 600,
+                "y": -600
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ SDR Processing",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "sdr_processing_comment",
+            "position": {
+                "x": 1000,
+                "y": -600
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Extract Streams - DoVi",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExtractStreams",
+            "version": "1.0.0",
+            "id": "dovi_extract_streams",
+            "position": {
+                "x": 200,
+                "y": -500
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Extract DoVi RPU",
+            "sourceRepo": "Community",
+            "pluginName": "extractDoViRpu",
+            "version": "1.0.0",
+            "id": "extract_dovi_rpu",
+            "position": {
+                "x": 200,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Video Encoder - DoVi",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetVideoEncoder",
+            "version": "1.0.0",
+            "id": "set_encoder_dovi",
+            "position": {
+                "x": 200,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "hardwareType": "qsv",
+                "ffmpegPreset": "slow",
+                "ffmpegQuality": "22"
+            }
+        },
+        {
+            "name": "Transcode Video - DoVi",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "transcode_dovi",
+            "position": {
+                "x": 200,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Inject DoVi RPU",
+            "sourceRepo": "Community",
+            "pluginName": "injectDoViRpu",
+            "version": "1.0.0",
+            "id": "inject_dovi_rpu",
+            "position": {
+                "x": 200,
+                "y": -100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Package DoVi MP4",
+            "sourceRepo": "Community",
+            "pluginName": "packageDoViMp4",
+            "version": "1.0.0",
+            "id": "package_dovi_mp4",
+            "position": {
+                "x": 200,
+                "y": 0
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Remux DoVi MP4",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandRemuxDoviMp4",
+            "version": "1.0.0",
+            "id": "remux_dovi_mp4",
+            "position": {
+                "x": 200,
+                "y": 100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Execute ffmpeg command - DoVi",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "execute_dovi_remux",
+            "position": {
+                "x": 200,
+                "y": 200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable is_h265 - HDR 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_h265_hdr",
+            "position": {
+                "x": 600,
+                "y": -500
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_h265}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Video Encoder - HDR",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetVideoEncoder",
+            "version": "1.0.0",
+            "id": "set_encoder_hdr",
+            "position": {
+                "x": 700,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "hardwareType": "qsv",
+                "ffmpegPreset": "slow",
+                "ffmpegQuality": "22"
+            }
+        },
+        {
+            "name": "Set Container MP4 - HDR 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetContainer",
+            "version": "1.0.0",
+            "id": "set_container_mp4_hdr",
+            "position": {
+                "x": 600,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "container": "mp4",
+                "forceConform": "false"
+            }
+        },
+        {
+            "name": "Execute ffmpeg command - HDR",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "execute_hdr",
+            "position": {
+                "x": 600,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable is_h265 - SDR 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_h265_sdr",
+            "position": {
+                "x": 1000,
+                "y": -500
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_h265}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_h264 - SDR 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_h264_sdr",
+            "position": {
+                "x": 1000,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_h264}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Video Encoder - SDR",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetVideoEncoder",
+            "version": "1.0.0",
+            "id": "set_encoder_sdr",
+            "position": {
+                "x": 1100,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "hardwareType": "qsv",
+                "ffmpegPreset": "slow",
+                "ffmpegQuality": "22"
+            }
+        },
+        {
+            "name": "Set Container MP4 - SDR 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetContainer",
+            "version": "1.0.0",
+            "id": "set_container_mp4_sdr",
+            "position": {
+                "x": 1000,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "container": "mp4",
+                "forceConform": "false"
+            }
+        },
+        {
+            "name": "Execute ffmpeg command - SDR",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "execute_sdr",
+            "position": {
+                "x": 1000,
+                "y": -100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File - DoVi ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file_dovi",
+            "position": {
+                "x": 200,
+                "y": 300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File - HDR ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file_hdr",
+            "position": {
+                "x": 600,
+                "y": -100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File - SDR ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file_sdr",
+            "position": {
+                "x": 1000,
+                "y": 0
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Go To Flow 5 - Save ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_save_flow",
+            "position": {
+                "x": 600,
+                "y": 300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_save",
+                "pluginId": "save_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "video_start",
+            "sourceHandle": "1",
+            "target": "check_is_dovi",
+            "targetHandle": null,
+            "id": "edge_start_to_dovi"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "1",
+            "target": "dovi_processing_comment",
+            "targetHandle": null,
+            "id": "edge_dovi_to_processing"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "2",
+            "target": "check_is_hdr10plus",
+            "targetHandle": null,
+            "id": "edge_not_dovi_to_hdr10plus"
+        },
+        {
+            "source": "check_is_hdr10plus",
+            "sourceHandle": "1",
+            "target": "hdr_processing_comment",
+            "targetHandle": null,
+            "id": "edge_hdr10plus_to_processing"
+        },
+        {
+            "source": "check_is_hdr10plus",
+            "sourceHandle": "2",
+            "target": "check_is_hdr10",
+            "targetHandle": null,
+            "id": "edge_not_hdr10plus_to_hdr10"
+        },
+        {
+            "source": "check_is_hdr10",
+            "sourceHandle": "1",
+            "target": "hdr_processing_comment",
+            "targetHandle": null,
+            "id": "edge_hdr10_to_processing"
+        },
+        {
+            "source": "check_is_hdr10",
+            "sourceHandle": "2",
+            "target": "sdr_processing_comment",
+            "targetHandle": null,
+            "id": "edge_not_hdr10_to_sdr"
+        },
+        {
+            "source": "dovi_processing_comment",
+            "sourceHandle": "1",
+            "target": "dovi_extract_streams",
+            "targetHandle": null,
+            "id": "edge_dovi_comment_to_extract"
+        },
+        {
+            "source": "hdr_processing_comment",
+            "sourceHandle": "1",
+            "target": "check_is_h265_hdr",
+            "targetHandle": null,
+            "id": "edge_hdr_comment_to_h265"
+        },
+        {
+            "source": "sdr_processing_comment",
+            "sourceHandle": "1",
+            "target": "check_is_h265_sdr",
+            "targetHandle": null,
+            "id": "edge_sdr_comment_to_h265"
+        },
+        {
+            "source": "dovi_extract_streams",
+            "sourceHandle": "1",
+            "target": "extract_dovi_rpu",
+            "targetHandle": null,
+            "id": "edge_extract_streams_to_rpu"
+        },
+        {
+            "source": "extract_dovi_rpu",
+            "sourceHandle": "1",
+            "target": "set_encoder_dovi",
+            "targetHandle": null,
+            "id": "edge_rpu_to_encoder"
+        },
+        {
+            "source": "set_encoder_dovi",
+            "sourceHandle": "1",
+            "target": "transcode_dovi",
+            "targetHandle": null,
+            "id": "edge_encoder_to_transcode"
+        },
+        {
+            "source": "transcode_dovi",
+            "sourceHandle": "1",
+            "target": "inject_dovi_rpu",
+            "targetHandle": null,
+            "id": "edge_transcode_to_inject"
+        },
+        {
+            "source": "inject_dovi_rpu",
+            "sourceHandle": "1",
+            "target": "package_dovi_mp4",
+            "targetHandle": null,
+            "id": "edge_inject_to_package"
+        },
+        {
+            "source": "package_dovi_mp4",
+            "sourceHandle": "1",
+            "target": "remux_dovi_mp4",
+            "targetHandle": null,
+            "id": "edge_package_to_remux"
+        },
+        {
+            "source": "remux_dovi_mp4",
+            "sourceHandle": "1",
+            "target": "execute_dovi_remux",
+            "targetHandle": null,
+            "id": "edge_remux_to_execute"
+        },
+        {
+            "source": "execute_dovi_remux",
+            "sourceHandle": "1",
+            "target": "set_original_file_dovi",
+            "targetHandle": null,
+            "id": "edge_execute_to_original"
+        },
+        {
+            "source": "check_is_h265_hdr",
+            "sourceHandle": "1",
+            "target": "set_container_mp4_hdr",
+            "targetHandle": null,
+            "id": "edge_h265_to_container"
+        },
+        {
+            "source": "check_is_h265_hdr",
+            "sourceHandle": "2",
+            "target": "set_encoder_hdr",
+            "targetHandle": null,
+            "id": "edge_not_h265_to_encoder"
+        },
+        {
+            "source": "set_encoder_hdr",
+            "sourceHandle": "1",
+            "target": "set_container_mp4_hdr",
+            "targetHandle": null,
+            "id": "edge_encoder_to_container"
+        },
+        {
+            "source": "set_container_mp4_hdr",
+            "sourceHandle": "1",
+            "target": "execute_hdr",
+            "targetHandle": null,
+            "id": "edge_container_to_execute"
+        },
+        {
+            "source": "execute_hdr",
+            "sourceHandle": "1",
+            "target": "set_original_file_hdr",
+            "targetHandle": null,
+            "id": "edge_execute_to_original_hdr"
+        },
+        {
+            "source": "check_is_h265_sdr",
+            "sourceHandle": "1",
+            "target": "set_container_mp4_sdr",
+            "targetHandle": null,
+            "id": "edge_h265_to_container_sdr"
+        },
+        {
+            "source": "check_is_h265_sdr",
+            "sourceHandle": "2",
+            "target": "check_is_h264_sdr",
+            "targetHandle": null,
+            "id": "edge_not_h265_to_h264"
+        },
+        {
+            "source": "check_is_h264_sdr",
+            "sourceHandle": "1",
+            "target": "set_container_mp4_sdr",
+            "targetHandle": null,
+            "id": "edge_h264_to_container"
+        },
+        {
+            "source": "check_is_h264_sdr",
+            "sourceHandle": "2",
+            "target": "set_encoder_sdr",
+            "targetHandle": null,
+            "id": "edge_not_h264_to_encoder"
+        },
+        {
+            "source": "set_encoder_sdr",
+            "sourceHandle": "1",
+            "target": "set_container_mp4_sdr",
+            "targetHandle": null,
+            "id": "edge_encoder_to_container_sdr"
+        },
+        {
+            "source": "set_container_mp4_sdr",
+            "sourceHandle": "1",
+            "target": "execute_sdr",
+            "targetHandle": null,
+            "id": "edge_container_to_execute_sdr"
+        },
+        {
+            "source": "execute_sdr",
+            "sourceHandle": "1",
+            "target": "set_original_file_sdr",
+            "targetHandle": null,
+            "id": "edge_execute_to_original_sdr"
+        },
+        {
+            "source": "set_original_file_dovi",
+            "sourceHandle": "1",
+            "target": "goto_save_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_save_dovi"
+        },
+        {
+            "source": "set_original_file_hdr",
+            "sourceHandle": "1",
+            "target": "goto_save_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_save_hdr"
+        },
+        {
+            "source": "set_original_file_sdr",
+            "sourceHandle": "1",
+            "target": "goto_save_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_save_sdr"
+        }
+    ]
+}

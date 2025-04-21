@@ -1,0 +1,329 @@
+{
+    "_id": "media_std_prep_optimized",
+    "name": "2 - Media Standardization - Prep (Optimized)",
+    "description": "Container standardization and stream preparation (Optimized version)",
+    "tags": "media,standardization,prep,optimized",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Prep (Optimized)",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "prep_start",
+            "position": {
+                "x": 400,
+                "y": -500
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Begin ffmpeg Command 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandStart",
+            "version": "1.0.0",
+            "id": "ffmpeg_start",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Remove Data Streams & Clean Up 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandRemoveDataStreams",
+            "version": "1.0.0",
+            "id": "remove_data_streams",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Extract Subtitles",
+            "sourceRepo": "Community",
+            "pluginName": "runClassicTranscodePlugin",
+            "version": "2.0.0",
+            "id": "extract_subs",
+            "position": {
+                "x": 400,
+                "y": -250
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "pluginSourceId": "Community:Tdarr_Plugin_rr01_drpeppershaker_extract_subs_to_SRT",
+                "remove_subs": "yes",
+                "output_dir": "{{{args.userVariables.library.output_dir_done}}}"
+            }
+        },
+        {
+            "name": "Reorder Streams 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandRorderStreams",
+            "version": "1.0.0",
+            "id": "reorder_streams",
+            "position": {
+                "x": 400,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "processOrder": "streamTypes",
+                "streamTypes": "audio,video"
+            }
+        },
+        {
+            "name": "Set Variable is_mp4_container 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_mp4_container",
+            "position": {
+                "x": 400,
+                "y": -150
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_mp4_container",
+                "value": "false"
+            }
+        },
+        {
+            "name": "Check File Extension 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFileExtension",
+            "version": "1.0.0",
+            "id": "check_extension",
+            "position": {
+                "x": 400,
+                "y": -100
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "extensions": "mp4"
+            }
+        },
+        {
+            "name": "Set Variable is_mp4_container to true 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_is_mp4_container_true",
+            "position": {
+                "x": 300,
+                "y": -50
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_mp4_container",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_mp4_container 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_mp4_container",
+            "position": {
+                "x": 400,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "is_mp4_container",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Container MP4 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetContainer",
+            "version": "1.0.0",
+            "id": "set_container_mp4",
+            "position": {
+                "x": 600,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "container": "mp4",
+                "forceConform": "false"
+            }
+        },
+        {
+            "name": "Execute ffmpeg command ⏳",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "ffmpeg_execute",
+            "position": {
+                "x": 400,
+                "y": 100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ffmpeg command Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "ffmpeg_error",
+            "position": {
+                "x": 600,
+                "y": 100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file",
+            "position": {
+                "x": 400,
+                "y": 200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Go To Flow 3 - Audio ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_audio_flow",
+            "position": {
+                "x": 400,
+                "y": 300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_audio_optimized",
+                "pluginId": "audio_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "prep_start",
+            "sourceHandle": "1",
+            "target": "ffmpeg_start",
+            "targetHandle": null,
+            "id": "edge_start_to_ffmpeg"
+        },
+        {
+            "source": "ffmpeg_start",
+            "sourceHandle": "1",
+            "target": "remove_data_streams",
+            "targetHandle": null,
+            "id": "edge_ffmpeg_to_data"
+        },
+        {
+            "source": "remove_data_streams",
+            "sourceHandle": "1",
+            "target": "extract_subs",
+            "targetHandle": null,
+            "id": "edge_data_to_extract"
+        },
+        {
+            "source": "extract_subs",
+            "sourceHandle": "1",
+            "target": "reorder_streams",
+            "targetHandle": null,
+            "id": "edge_extract_to_reorder"
+        },
+        {
+            "source": "extract_subs",
+            "sourceHandle": "2",
+            "target": "reorder_streams",
+            "targetHandle": null,
+            "id": "edge_extract_nothing_to_reorder"
+        },
+        {
+            "source": "reorder_streams",
+            "sourceHandle": "1",
+            "target": "set_is_mp4_container",
+            "targetHandle": null,
+            "id": "edge_reorder_to_set_var"
+        },
+        {
+            "source": "set_is_mp4_container",
+            "sourceHandle": "1",
+            "target": "check_extension",
+            "targetHandle": null,
+            "id": "edge_set_var_to_check"
+        },
+        {
+            "source": "check_extension",
+            "sourceHandle": "1",
+            "target": "set_is_mp4_container_true",
+            "targetHandle": null,
+            "id": "edge_check_to_set_true"
+        },
+        {
+            "source": "check_extension",
+            "sourceHandle": "2",
+            "target": "check_is_mp4_container",
+            "targetHandle": null,
+            "id": "edge_check_to_check_var"
+        },
+        {
+            "source": "set_is_mp4_container_true",
+            "sourceHandle": "1",
+            "target": "check_is_mp4_container",
+            "targetHandle": null,
+            "id": "edge_set_true_to_check_var"
+        },
+        {
+            "source": "check_is_mp4_container",
+            "sourceHandle": "1",
+            "target": "ffmpeg_execute",
+            "targetHandle": null,
+            "id": "edge_check_var_to_execute"
+        },
+        {
+            "source": "check_is_mp4_container",
+            "sourceHandle": "2",
+            "target": "set_container_mp4",
+            "targetHandle": null,
+            "id": "edge_check_var_to_container"
+        },
+        {
+            "source": "set_container_mp4",
+            "sourceHandle": "1",
+            "target": "ffmpeg_execute",
+            "targetHandle": null,
+            "id": "edge_container_to_execute"
+        },
+        {
+            "source": "ffmpeg_execute",
+            "sourceHandle": "err1",
+            "target": "ffmpeg_error",
+            "targetHandle": null,
+            "id": "edge_execute_to_error"
+        },
+        {
+            "source": "ffmpeg_execute",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_execute_to_original"
+        },
+        {
+            "source": "ffmpeg_error",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_error_to_original"
+        },
+        {
+            "source": "set_original_file",
+            "sourceHandle": "1",
+            "target": "goto_audio_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_audio"
+        }
+    ]
+}

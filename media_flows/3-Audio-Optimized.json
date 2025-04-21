@@ -1,0 +1,114 @@
+{
+    "_id": "media_std_audio_optimized",
+    "name": "3 - Media Standardization - Audio (Optimized)",
+    "description": "Audio stream standardization using AC3 Audio Stream Handler (Optimized version)",
+    "tags": "media,standardization,audio,optimized",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Audio (Optimized)",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "audio_start",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "AC3 Audio Stream Handler",
+            "sourceRepo": "Community",
+            "pluginName": "ac3AudioStreamHandler",
+            "version": "1.0.0",
+            "id": "ac3_handler",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "keepOnlyEnglishAC3": "true",
+                "removeNonEnglishSubs": "false",
+                "convertToMkv": "false"
+            }
+        },
+        {
+            "name": "AC3 Handler Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "ac3_handler_error",
+            "position": {
+                "x": 600,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file",
+            "position": {
+                "x": 400,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Go To Flow 4 - Video ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_video_flow",
+            "position": {
+                "x": 400,
+                "y": -100
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_video_optimized",
+                "pluginId": "video_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "audio_start",
+            "sourceHandle": "1",
+            "target": "ac3_handler",
+            "targetHandle": null,
+            "id": "edge_start_to_handler"
+        },
+        {
+            "source": "ac3_handler",
+            "sourceHandle": "err1",
+            "target": "ac3_handler_error",
+            "targetHandle": null,
+            "id": "edge_handler_to_error"
+        },
+        {
+            "source": "ac3_handler",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_handler_to_original"
+        },
+        {
+            "source": "ac3_handler_error",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_error_to_original"
+        },
+        {
+            "source": "set_original_file",
+            "sourceHandle": "1",
+            "target": "goto_video_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_video"
+        }
+    ]
+}

@@ -1,0 +1,245 @@
+{
+    "_id": "media_std_video_optimized",
+    "name": "4 - Media Standardization - Video (Optimized)",
+    "description": "Video processing based on codec and HDR type (Optimized version)",
+    "tags": "media,standardization,video,optimized",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Video (Optimized)",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "video_start",
+            "position": {
+                "x": 400,
+                "y": -600
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable is_dovi 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_dovi",
+            "position": {
+                "x": 400,
+                "y": -500
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_dovi}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_h265 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_h265",
+            "position": {
+                "x": 600,
+                "y": -500
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_h265}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Process Dolby Vision",
+            "sourceRepo": "Community",
+            "pluginName": "runClassicTranscodePlugin",
+            "version": "2.0.0",
+            "id": "process_dovi",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "pluginSourceId": "Community:Tdarr_Plugin_MC93_Migz1FFMPEG"
+            }
+        },
+        {
+            "name": "Set Video Encoder",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetVideoEncoder",
+            "version": "1.0.0",
+            "id": "set_encoder",
+            "position": {
+                "x": 600,
+                "y": -400
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "hardwareType": "qsv",
+                "ffmpegPreset": "medium",
+                "ffmpegQuality": "22"
+            }
+        },
+        {
+            "name": "Set Container MP4 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetContainer",
+            "version": "1.0.0",
+            "id": "set_container_mp4",
+            "position": {
+                "x": 600,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "container": "mp4",
+                "forceConform": "false"
+            }
+        },
+        {
+            "name": "Execute ffmpeg command",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "execute_ffmpeg",
+            "position": {
+                "x": 600,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ffmpeg Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "ffmpeg_error",
+            "position": {
+                "x": 800,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file",
+            "position": {
+                "x": 400,
+                "y": -100
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Go To Flow 5 - Save ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_save_flow",
+            "position": {
+                "x": 400,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_save_optimized",
+                "pluginId": "save_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "video_start",
+            "sourceHandle": "1",
+            "target": "check_is_dovi",
+            "targetHandle": null,
+            "id": "edge_start_to_dovi"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "1",
+            "target": "process_dovi",
+            "targetHandle": null,
+            "id": "edge_dovi_to_process"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "2",
+            "target": "check_is_h265",
+            "targetHandle": null,
+            "id": "edge_not_dovi_to_h265"
+        },
+        {
+            "source": "check_is_h265",
+            "sourceHandle": "1",
+            "target": "set_container_mp4",
+            "targetHandle": null,
+            "id": "edge_h265_to_container"
+        },
+        {
+            "source": "check_is_h265",
+            "sourceHandle": "2",
+            "target": "set_encoder",
+            "targetHandle": null,
+            "id": "edge_not_h265_to_encoder"
+        },
+        {
+            "source": "set_encoder",
+            "sourceHandle": "1",
+            "target": "set_container_mp4",
+            "targetHandle": null,
+            "id": "edge_encoder_to_container"
+        },
+        {
+            "source": "set_container_mp4",
+            "sourceHandle": "1",
+            "target": "execute_ffmpeg",
+            "targetHandle": null,
+            "id": "edge_container_to_execute"
+        },
+        {
+            "source": "execute_ffmpeg",
+            "sourceHandle": "err1",
+            "target": "ffmpeg_error",
+            "targetHandle": null,
+            "id": "edge_execute_to_error"
+        },
+        {
+            "source": "execute_ffmpeg",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_execute_to_original"
+        },
+        {
+            "source": "process_dovi",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_process_to_original"
+        },
+        {
+            "source": "process_dovi",
+            "sourceHandle": "2",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_process_nothing_to_original"
+        },
+        {
+            "source": "ffmpeg_error",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_error_to_original"
+        },
+        {
+            "source": "set_original_file",
+            "sourceHandle": "1",
+            "target": "goto_save_flow",
+            "targetHandle": null,
+            "id": "edge_original_to_save"
+        }
+    ]
+}

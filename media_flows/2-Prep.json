@@ -1,0 +1,566 @@
+{
+    "_id": "media_std_prep",
+    "name": "2 - Media Standardization - Prep",
+    "description": "Container standardization and stream preparation",
+    "tags": "media,standardization,prep",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Prep",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "prep_start",
+            "position": {
+                "x": 400,
+                "y": -800
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ This flow prepares the file for processing by standardizing the container and cleaning up streams",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "prep_description",
+            "position": {
+                "x": 400,
+                "y": -750
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable is_mkv 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_mkv",
+            "position": {
+                "x": 400,
+                "y": -650
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_mkv}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Run MKVPropEdit ⏳",
+            "sourceRepo": "Community",
+            "pluginName": "runMkvPropEdit",
+            "version": "1.0.0",
+            "id": "run_mkvpropedit",
+            "position": {
+                "x": 300,
+                "y": -550
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "MKVPropEdit Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "mkvpropedit_error",
+            "position": {
+                "x": 500,
+                "y": -550
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ Remove Data Streams",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "remove_data_comment",
+            "position": {
+                "x": 400,
+                "y": -450
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Begin ffmpeg Command 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandStart",
+            "version": "1.0.0",
+            "id": "ffmpeg_start",
+            "position": {
+                "x": 400,
+                "y": -400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Remove Data Streams 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandRemoveDataStreams",
+            "version": "1.0.0",
+            "id": "remove_data_streams",
+            "position": {
+                "x": 400,
+                "y": -350
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Remove Images ⏳",
+            "sourceRepo": "Community",
+            "pluginName": "runClassicTranscodePlugin",
+            "version": "2.0.0",
+            "id": "remove_images",
+            "position": {
+                "x": 400,
+                "y": -300
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "pluginSourceId": "Community:Tdarr_Plugin_MC93_MigzImageRemoval"
+            }
+        },
+        {
+            "name": "Remove Images Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "remove_images_error",
+            "position": {
+                "x": 600,
+                "y": -300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Clean Titles ⏳",
+            "sourceRepo": "Community",
+            "pluginName": "runClassicTranscodePlugin",
+            "version": "2.0.0",
+            "id": "clean_titles",
+            "position": {
+                "x": 400,
+                "y": -200
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "pluginSourceId": "Community:Tdarr_Plugin_MC93_Migz2CleanTitle",
+                "clean_audio": "true",
+                "clean_subtitles": "true"
+            }
+        },
+        {
+            "name": "Clean Titles Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "clean_titles_error",
+            "position": {
+                "x": 600,
+                "y": -200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Reorder Streams 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandRorderStreams",
+            "version": "1.0.0",
+            "id": "reorder_streams",
+            "position": {
+                "x": 400,
+                "y": -100
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "processOrder": "streamTypes",
+                "streamTypes": "video,audio,subtitle"
+            }
+        },
+        {
+            "name": "Check Variable is_dovi 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_dovi",
+            "position": {
+                "x": 400,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_dovi}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Check Variable is_mp4 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_is_mp4",
+            "position": {
+                "x": 600,
+                "y": 0
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.is_mp4}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Container MP4 📼",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandSetContainer",
+            "version": "1.0.0",
+            "id": "set_container_mp4",
+            "position": {
+                "x": 600,
+                "y": 100
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "container": "mp4",
+                "forceConform": "false"
+            }
+        },
+        {
+            "name": "Execute ffmpeg command ⏳",
+            "sourceRepo": "Community",
+            "pluginName": "ffmpegCommandExecute",
+            "version": "1.0.0",
+            "id": "ffmpeg_execute",
+            "position": {
+                "x": 400,
+                "y": 200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ffmpeg command Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "resetFlowError",
+            "version": "1.0.0",
+            "id": "ffmpeg_error",
+            "position": {
+                "x": 600,
+                "y": 200
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Set Original File ✅",
+            "sourceRepo": "Community",
+            "pluginName": "setOriginalFile",
+            "version": "1.0.0",
+            "id": "set_original_file",
+            "position": {
+                "x": 400,
+                "y": 300
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check for Retry Variables 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "retry_check_comment",
+            "position": {
+                "x": 400,
+                "y": 400
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Check Variable retry1 🔍",
+            "sourceRepo": "Community",
+            "pluginName": "checkFlowVariable",
+            "version": "1.0.0",
+            "id": "check_retry1",
+            "position": {
+                "x": 400,
+                "y": 450
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "{{{args.variables.user.retry1}}}",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Set Variable retry1 🎯",
+            "sourceRepo": "Community",
+            "pluginName": "setFlowVariable",
+            "version": "1.0.0",
+            "id": "set_retry1",
+            "position": {
+                "x": 400,
+                "y": 550
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "variable": "retry1",
+                "value": "true"
+            }
+        },
+        {
+            "name": "Go back to beginning of flow ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_input_flow",
+            "position": {
+                "x": 400,
+                "y": 650
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_input",
+                "pluginId": "input_start_comment"
+            }
+        },
+        {
+            "name": "Go To Flow 3 - Audio ➡️",
+            "sourceRepo": "Community",
+            "pluginName": "goToFlow",
+            "version": "2.0.0",
+            "id": "goto_audio_flow",
+            "position": {
+                "x": 400,
+                "y": 750
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "flowId": "media_std_audio",
+                "pluginId": "audio_start"
+            }
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "prep_start",
+            "sourceHandle": "1",
+            "target": "prep_description",
+            "targetHandle": null,
+            "id": "edge_start_to_description"
+        },
+        {
+            "source": "prep_description",
+            "sourceHandle": "1",
+            "target": "check_is_mkv",
+            "targetHandle": null,
+            "id": "edge_description_to_mkv"
+        },
+        {
+            "source": "check_is_mkv",
+            "sourceHandle": "1",
+            "target": "run_mkvpropedit",
+            "targetHandle": null,
+            "id": "edge_mkv_to_propedit"
+        },
+        {
+            "source": "run_mkvpropedit",
+            "sourceHandle": "err1",
+            "target": "mkvpropedit_error",
+            "targetHandle": null,
+            "id": "edge_propedit_to_error"
+        },
+        {
+            "source": "run_mkvpropedit",
+            "sourceHandle": "1",
+            "target": "remove_data_comment",
+            "targetHandle": null,
+            "id": "edge_propedit_to_data"
+        },
+        {
+            "source": "check_is_mkv",
+            "sourceHandle": "2",
+            "target": "remove_data_comment",
+            "targetHandle": null,
+            "id": "edge_not_mkv_to_data"
+        },
+        {
+            "source": "mkvpropedit_error",
+            "sourceHandle": "1",
+            "target": "remove_data_comment",
+            "targetHandle": null,
+            "id": "edge_propedit_error_to_data"
+        },
+        {
+            "source": "remove_data_comment",
+            "sourceHandle": "1",
+            "target": "ffmpeg_start",
+            "targetHandle": null,
+            "id": "edge_data_comment_to_ffmpeg"
+        },
+        {
+            "source": "ffmpeg_start",
+            "sourceHandle": "1",
+            "target": "remove_data_streams",
+            "targetHandle": null,
+            "id": "edge_ffmpeg_to_data"
+        },
+        {
+            "source": "remove_data_streams",
+            "sourceHandle": "1",
+            "target": "remove_images",
+            "targetHandle": null,
+            "id": "edge_data_to_images"
+        },
+        {
+            "source": "remove_images",
+            "sourceHandle": "err1",
+            "target": "remove_images_error",
+            "targetHandle": null,
+            "id": "edge_images_to_error"
+        },
+        {
+            "source": "remove_images",
+            "sourceHandle": "1",
+            "target": "clean_titles",
+            "targetHandle": null,
+            "id": "edge_images_to_titles"
+        },
+        {
+            "source": "remove_images",
+            "sourceHandle": "2",
+            "target": "clean_titles",
+            "targetHandle": null,
+            "id": "edge_images_nothing_to_titles"
+        },
+        {
+            "source": "remove_images_error",
+            "sourceHandle": "1",
+            "target": "clean_titles",
+            "targetHandle": null,
+            "id": "edge_images_error_to_titles"
+        },
+        {
+            "source": "clean_titles",
+            "sourceHandle": "err1",
+            "target": "clean_titles_error",
+            "targetHandle": null,
+            "id": "edge_titles_to_error"
+        },
+        {
+            "source": "clean_titles",
+            "sourceHandle": "1",
+            "target": "reorder_streams",
+            "targetHandle": null,
+            "id": "edge_titles_to_reorder"
+        },
+        {
+            "source": "clean_titles",
+            "sourceHandle": "2",
+            "target": "reorder_streams",
+            "targetHandle": null,
+            "id": "edge_titles_nothing_to_reorder"
+        },
+        {
+            "source": "clean_titles_error",
+            "sourceHandle": "1",
+            "target": "reorder_streams",
+            "targetHandle": null,
+            "id": "edge_titles_error_to_reorder"
+        },
+        {
+            "source": "reorder_streams",
+            "sourceHandle": "1",
+            "target": "check_is_dovi",
+            "targetHandle": null,
+            "id": "edge_reorder_to_dovi"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "1",
+            "target": "ffmpeg_execute",
+            "targetHandle": null,
+            "id": "edge_dovi_to_execute"
+        },
+        {
+            "source": "check_is_dovi",
+            "sourceHandle": "2",
+            "target": "check_is_mp4",
+            "targetHandle": null,
+            "id": "edge_not_dovi_to_mp4"
+        },
+        {
+            "source": "check_is_mp4",
+            "sourceHandle": "1",
+            "target": "ffmpeg_execute",
+            "targetHandle": null,
+            "id": "edge_mp4_to_execute"
+        },
+        {
+            "source": "check_is_mp4",
+            "sourceHandle": "2",
+            "target": "set_container_mp4",
+            "targetHandle": null,
+            "id": "edge_not_mp4_to_container"
+        },
+        {
+            "source": "set_container_mp4",
+            "sourceHandle": "1",
+            "target": "ffmpeg_execute",
+            "targetHandle": null,
+            "id": "edge_container_to_execute"
+        },
+        {
+            "source": "ffmpeg_execute",
+            "sourceHandle": "err1",
+            "target": "ffmpeg_error",
+            "targetHandle": null,
+            "id": "edge_execute_to_error"
+        },
+        {
+            "source": "ffmpeg_execute",
+            "sourceHandle": "1",
+            "target": "set_original_file",
+            "targetHandle": null,
+            "id": "edge_execute_to_original"
+        },
+        {
+            "source": "set_original_file",
+            "sourceHandle": "1",
+            "target": "retry_check_comment",
+            "targetHandle": null,
+            "id": "edge_original_to_retry"
+        },
+        {
+            "source": "retry_check_comment",
+            "sourceHandle": "1",
+            "target": "check_retry1",
+            "targetHandle": null,
+            "id": "edge_retry_comment_to_check"
+        },
+        {
+            "source": "check_retry1",
+            "sourceHandle": "1",
+            "target": "goto_audio_flow",
+            "targetHandle": null,
+            "id": "edge_retry1_to_audio"
+        },
+        {
+            "source": "check_retry1",
+            "sourceHandle": "2",
+            "target": "goto_audio_flow",
+            "targetHandle": null,
+            "id": "edge_no_retry1_to_audio"
+        },
+        {
+            "source": "ffmpeg_error",
+            "sourceHandle": "1",
+            "target": "set_retry1",
+            "targetHandle": null,
+            "id": "edge_error_to_retry1"
+        },
+        {
+            "source": "set_retry1",
+            "sourceHandle": "1",
+            "target": "goto_input_flow",
+            "targetHandle": null,
+            "id": "edge_retry1_to_input"
+        }
+    ]
+}

@@ -1,0 +1,333 @@
+{
+    "_id": "media_std_save",
+    "name": "5 - Media Standardization - Save",
+    "description": "Final processing and output",
+    "tags": "media,standardization,save",
+    "flowPlugins": [
+        {
+            "name": "ℹ️ Media Standardization Flow - Save",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "save_start",
+            "position": {
+                "x": 400,
+                "y": -800
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "ℹ️ This flow handles final processing and output",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "save_description",
+            "position": {
+                "x": 400,
+                "y": -750
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Compare File Duration Ratio",
+            "sourceRepo": "Community",
+            "pluginName": "compareFileDurationRatio",
+            "version": "1.0.0",
+            "id": "compare_duration",
+            "position": {
+                "x": 400,
+                "y": -650
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Duration Too Short ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "duration_too_short",
+            "position": {
+                "x": 200,
+                "y": -550
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Duration Too Long ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "duration_too_long",
+            "position": {
+                "x": 600,
+                "y": -550
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Compare File Size Ratio",
+            "sourceRepo": "Community",
+            "pluginName": "compareFileSizeRatio",
+            "version": "1.0.0",
+            "id": "compare_size",
+            "position": {
+                "x": 400,
+                "y": -450
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Size Too Small ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "size_too_small",
+            "position": {
+                "x": 200,
+                "y": -350
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Size Too Large ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "size_too_large",
+            "position": {
+                "x": 600,
+                "y": -350
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Move to Blackhole",
+            "sourceRepo": "Community",
+            "pluginName": "moveToBlackhole",
+            "version": "1.0.0",
+            "id": "move_to_blackhole",
+            "position": {
+                "x": 400,
+                "y": -250
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "outputDirectory": "{{{args.userVariables.library.output_dir_done}}}",
+                "allFiles": "false",
+                "fileExtensions": "srt,ass,sub,idx"
+            }
+        },
+        {
+            "name": "Move Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "move_error",
+            "position": {
+                "x": 600,
+                "y": -250
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Wait for rename from Radarr or Sonarr",
+            "sourceRepo": "Community",
+            "pluginName": "getNewPathFromRadarrOrSonarr",
+            "version": "1.0.0",
+            "id": "wait_for_rename",
+            "position": {
+                "x": 400,
+                "y": -150
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "arr": "{{{args.userVariables.library.arr}}}",
+                "arr_api_key": "{{{args.userVariables.library.arr_api_key}}}",
+                "arr_host": "{{{args.userVariables.library.arr_host}}}",
+                "path_mapping_from": "{{{args.userVariables.library.path_mapping_from}}}",
+                "path_mapping_to": "{{{args.userVariables.library.path_mapping_to}}}"
+            }
+        },
+        {
+            "name": "Rename Error ⚠️",
+            "sourceRepo": "Community",
+            "pluginName": "failFlow",
+            "version": "1.0.0",
+            "id": "rename_error",
+            "position": {
+                "x": 600,
+                "y": -150
+            },
+            "fpEnabled": true
+        },
+        {
+            "name": "Send Notification - Success",
+            "sourceRepo": "Community",
+            "pluginName": "webRequest",
+            "version": "1.0.0",
+            "id": "send_success_notification",
+            "position": {
+                "x": 400,
+                "y": -50
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "requestUrl": "{{{args.userVariables.global.notification_url}}}",
+                "requestHeaders": "{{{args.userVariables.global.notification_headers}}}",
+                "requestBody": "{\n  \"message\": \"Media standardization completed successfully: {{{ args.originalLibraryFile._id }}}\"\n}",
+                "method": "post"
+            }
+        },
+        {
+            "name": "Send Notification - Error",
+            "sourceRepo": "Community",
+            "pluginName": "webRequest",
+            "version": "1.0.0",
+            "id": "send_error_notification",
+            "position": {
+                "x": 600,
+                "y": -50
+            },
+            "fpEnabled": true,
+            "inputsDB": {
+                "requestUrl": "{{{args.userVariables.global.notification_url}}}",
+                "requestHeaders": "{{{args.userVariables.global.notification_headers}}}",
+                "requestBody": "{\n  \"message\": \"Media standardization failed: {{{ args.originalLibraryFile._id }}}\"\n}",
+                "method": "post"
+            }
+        },
+        {
+            "name": "Processing Complete ✅",
+            "sourceRepo": "Community",
+            "pluginName": "comment",
+            "version": "1.0.0",
+            "id": "processing_complete",
+            "position": {
+                "x": 400,
+                "y": 50
+            },
+            "fpEnabled": true
+        }
+    ],
+    "flowEdges": [
+        {
+            "source": "save_start",
+            "sourceHandle": "1",
+            "target": "save_description",
+            "targetHandle": null,
+            "id": "edge_start_to_description"
+        },
+        {
+            "source": "save_description",
+            "sourceHandle": "1",
+            "target": "compare_duration",
+            "targetHandle": null,
+            "id": "edge_description_to_duration"
+        },
+        {
+            "source": "compare_duration",
+            "sourceHandle": "2",
+            "target": "duration_too_short",
+            "targetHandle": null,
+            "id": "edge_duration_to_short"
+        },
+        {
+            "source": "compare_duration",
+            "sourceHandle": "3",
+            "target": "duration_too_long",
+            "targetHandle": null,
+            "id": "edge_duration_to_long"
+        },
+        {
+            "source": "compare_duration",
+            "sourceHandle": "1",
+            "target": "compare_size",
+            "targetHandle": null,
+            "id": "edge_duration_to_size"
+        },
+        {
+            "source": "compare_size",
+            "sourceHandle": "2",
+            "target": "size_too_small",
+            "targetHandle": null,
+            "id": "edge_size_to_small"
+        },
+        {
+            "source": "compare_size",
+            "sourceHandle": "3",
+            "target": "size_too_large",
+            "targetHandle": null,
+            "id": "edge_size_to_large"
+        },
+        {
+            "source": "compare_size",
+            "sourceHandle": "1",
+            "target": "move_to_blackhole",
+            "targetHandle": null,
+            "id": "edge_size_to_move"
+        },
+        {
+            "source": "move_to_blackhole",
+            "sourceHandle": "err1",
+            "target": "move_error",
+            "targetHandle": null,
+            "id": "edge_move_to_error"
+        },
+        {
+            "source": "move_to_blackhole",
+            "sourceHandle": "1",
+            "target": "wait_for_rename",
+            "targetHandle": null,
+            "id": "edge_move_to_wait"
+        },
+        {
+            "source": "wait_for_rename",
+            "sourceHandle": "err1",
+            "target": "rename_error",
+            "targetHandle": null,
+            "id": "edge_wait_to_error"
+        },
+        {
+            "source": "wait_for_rename",
+            "sourceHandle": "1",
+            "target": "send_success_notification",
+            "targetHandle": null,
+            "id": "edge_wait_to_success"
+        },
+        {
+            "source": "wait_for_rename",
+            "sourceHandle": "2",
+            "target": "send_error_notification",
+            "targetHandle": null,
+            "id": "edge_wait_to_notification_error"
+        },
+        {
+            "source": "move_error",
+            "sourceHandle": "1",
+            "target": "send_error_notification",
+            "targetHandle": null,
+            "id": "edge_move_error_to_notification"
+        },
+        {
+            "source": "rename_error",
+            "sourceHandle": "1",
+            "target": "send_error_notification",
+            "targetHandle": null,
+            "id": "edge_rename_error_to_notification"
+        },
+        {
+            "source": "send_success_notification",
+            "sourceHandle": "1",
+            "target": "processing_complete",
+            "targetHandle": null,
+            "id": "edge_success_to_complete"
+        },
+        {
+            "source": "send_error_notification",
+            "sourceHandle": "1",
+            "target": "processing_complete",
+            "targetHandle": null,
+            "id": "edge_error_to_complete"
+        }
+    ]
+}
